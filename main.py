@@ -1,3 +1,5 @@
+from tokenize import Double
+
 from fastapi import FastAPI,Path,Query
 #创建 FastAPI实例
 app = FastAPI()
@@ -43,3 +45,11 @@ async def get_news_list(
 	limit:int=Query(10,description="返回的记录数")
 ):
 	return{"skip":skip,"limit":limit}
+
+#需求 设计接口查询图书，要求携带两个查询参数：图书分类和价格
+@app.get("/book/")
+async def get_book(
+	type:str=Query("Python开发",min_length=5,max_length=255),
+	price:int=Query(...,gt=50,lt=100)
+):
+	return{"type":type,"price":price}
