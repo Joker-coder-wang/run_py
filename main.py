@@ -55,12 +55,12 @@ async def get_book(
 	return{"type":type,"price":price}
 
 
-from pydantic import BaseModel
+from pydantic import BaseModel,Field
 
 #注册：用户名和密码 ->str 
 class User(BaseModel):
-	username:str
-	password:str
+	username:str=Field(default="张三",min_length=2,max_length=5,discription="用户名，长度要求2-5个字")
+	password:str=Field(min_length=6,max_length=16,description="请设置密码，长度要求在6-16字符")
 
 @app.post("/register")
 async def register(user:User):
@@ -68,10 +68,10 @@ async def register(user:User):
 
 #需求：设计接口新增图书，图书信息包含：书名、作者、出版社、售价
 class Book(BaseModel):
-	title:str
-	autor:str
-	publisher:str
-	price:float
+	title:str=Field(min_length=1,max_length=15)
+	autor:str=Field(min_length=2,max_length=10)
+	publisher:str=Field(default="人民出版社")
+	price:float=Field(gt=0)
 
 @app.post("/books")
 async def add_book(book:Book):
