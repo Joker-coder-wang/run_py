@@ -53,3 +53,26 @@ async def get_book(
 	price:int=Query(...,gt=50,lt=100)
 ):
 	return{"type":type,"price":price}
+
+
+from pydantic import BaseModel
+
+#注册：用户名和密码 ->str 
+class User(BaseModel):
+	username:str
+	password:str
+
+@app.post("/register")
+async def register(user:User):
+	return user
+
+#需求：设计接口新增图书，图书信息包含：书名、作者、出版社、售价
+class Book(BaseModel):
+	title:str
+	autor:str
+	publisher:str
+	price:float
+
+@app.post("/books")
+async def add_book(book:Book):
+	return {"msg":"图书添加成功","book":book}
