@@ -26,7 +26,7 @@ class Base(DeclarativeBase):
     update_time:Mapped[datetime] = mapped_column(DateTime,insert_default=func.now(),default=func.now,onupdate=func.now,comment="创建时间")
 
 class Book(Base):
-    __tablename__ = "book"
+    __tablename__ = "book" # 给表 对应的模型类起个名字
 
     id:Mapped[int] = mapped_column(primary_key=True,comment="书籍id")
     bookname:Mapped[str] = mapped_column(String(255),comment="书名")
